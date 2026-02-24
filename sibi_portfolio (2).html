@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sibi Wilson — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --accent: #00f5a0;
+    --accent2: #00c8f5;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,160,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,160,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,15,0.85);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.75rem; letter-spacing: 0.15em;
+    text-transform: uppercase; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative; z-index: 1;
+  }
+  .hero-inner { max-width: 750px; }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.7rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.3rem 0.8rem; border-radius: 2px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800; line-height: 0.95;
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero h1 .outline {
+    display: block;
+    -webkit-text-stroke: 1px var(--text);
+    color: transparent;
+  }
+
+  .hero-desc {
+    margin-top: 2.5rem;
+    font-size: 0.88rem; line-height: 1.9;
+    color: var(--muted); max-width: 500px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-top: 3rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+    border-radius: 2px; transition: all 0.3s;
+  }
+  .btn-primary { background: var(--accent); color: var(--bg); font-weight: 600; }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-outline { border: 1px solid var(--muted); color: var(--text); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats {
+    position: absolute; right: 4rem; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 2.5rem;
+    animation: fadeLeft 1s 0.4s ease both;
+  }
+  .stat { text-align: right; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 800;
+    color: var(--accent); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted); margin-top: 0.3rem;
+  }
+
+  section {
+    padding: 7rem 4rem;
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800; letter-spacing: -0.02em;
+  }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem; border-radius: 4px;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .skill-card:hover::before { transform: scaleX(1); }
+  .skill-card:hover { border-color: rgba(0,245,160,0.2); transform: translateY(-4px); }
+
+  .skill-category {
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+  }
+  .skill-items { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .skill-tag {
+    background: rgba(0,245,160,0.07);
+    border: 1px solid rgba(0,245,160,0.15);
+    color: var(--text); font-size: 0.75rem;
+    padding: 0.3rem 0.7rem; border-radius: 2px;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+  }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px; padding: 2.5rem;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .project-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,245,160,0.05) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .project-card:hover::after { opacity: 1; }
+  .project-card:hover { border-color: rgba(0,245,160,0.25); transform: translateY(-6px); }
+
+  .project-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.5rem; font-weight: 800;
+    color: rgba(0,245,160,0.08); line-height: 1; margin-bottom: 1rem;
+  }
+  .project-period {
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;
+  }
+  .project-desc {
+    font-size: 0.8rem; line-height: 1.85;
+    color: var(--muted); margin-bottom: 1.5rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .project-tag {
+    font-size: 0.7rem; padding: 0.25rem 0.65rem; border-radius: 2px;
+    background: rgba(0,200,245,0.08);
+    border: 1px solid rgba(0,200,245,0.2);
+    color: var(--accent2);
+  }
+
+  .achievements-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .achievement {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 2rem 2.5rem;
+    display: flex; align-items: center; gap: 2rem;
+    transition: all 0.3s;
+  }
+  .achievement:hover { border-color: rgba(0,245,160,0.2); transform: translateX(6px); }
+  .achievement-icon { font-size: 1.5rem; min-width: 48px; text-align: center; }
+  .achievement-text { flex: 1; }
+  .achievement-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem;
+  }
+  .achievement-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+  .achievement-badge {
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent);
+    padding: 0.3rem 0.8rem; border-radius: 2px; white-space: nowrap;
+  }
+
+  .education-timeline { position: relative; padding-left: 2rem; }
+  .education-timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0.5rem; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .edu-item { position: relative; padding: 0 0 3rem 2.5rem; }
+  .edu-item::before {
+    content: '';
+    position: absolute; left: -0.35rem; top: 0.5rem;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 12px var(--accent);
+  }
+  .edu-period {
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent2); margin-bottom: 0.5rem;
+  }
+  .edu-degree {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem;
+  }
+  .edu-school { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .edu-score {
+    display: inline-block; font-size: 0.7rem;
+    background: rgba(0,245,160,0.1);
+    border: 1px solid rgba(0,245,160,0.2);
+    color: var(--accent); padding: 0.2rem 0.7rem; border-radius: 2px;
+  }
+
+  .contact-section {
+    text-align: center; padding: 6rem 4rem;
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+  }
+  .contact-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem); font-weight: 800;
+    letter-spacing: -0.02em; margin-bottom: 1rem;
+  }
+  .contact-section h2 span {
+    -webkit-text-stroke: 1px var(--text); color: transparent;
+  }
+  .contact-section p {
+    color: var(--muted); font-size: 0.85rem;
+    line-height: 1.8; margin-bottom: 2.5rem;
+  }
+  .contact-info {
+    display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+    margin-top: 3rem;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.8rem; color: var(--muted);
+  }
+  .contact-item a { color: var(--accent); text-decoration: none; }
+  .contact-item a:hover { text-decoration: underline; }
+
+  footer {
+    text-align: center; padding: 2rem;
+    font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em;
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translate(40px, -50%); }
+    to { opacity: 1; transform: translate(0, -50%); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 0.65rem; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .hero-stats { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .achievement { flex-wrap: wrap; }
+    .contact-section { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SW</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">// Available for opportunities</span>
+    <h1>
+      SIBI<br>
+      <span class="outline">WILSON</span>
+    </h1>
+    <p class="hero-desc">
+      B.Tech IT student at Panimalar Engineering College. Building clean, functional web applications with Java, HTML, CSS and MySQL. Passionate about full-stack development and cloud technologies.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">7.98</div>
+      <div class="stat-label">CGPA</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2+</div>
+      <div class="stat-label">Projects</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Certifications</div>
+    </div>
+  </div>
+</div>
+
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-category">Programming</div>
+      <div class="skill-items"><span class="skill-tag">Java</span></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-category">Frontend</div>
+      <div class="skill-items">
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-category">Database</div>
+      <div class="skill-items"><span class="skill-tag">MySQL</span></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-category">Core Concepts</div>
+      <div class="skill-items">
+        <span class="skill-tag">OOP</span>
+        <span class="skill-tag">DBMS</span>
+        <span class="skill-tag">Computer Networks</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-num">01</div>
+      <div class="project-period">Aug 2025 - Nov 2025</div>
+      <div class="project-title">Personal Expense Tracker</div>
+      <div class="project-desc">
+        A personal expense tracker is a tool that helps individuals monitor and manage their daily spending. Designed to give users full visibility into where their money goes, encourage budgeting discipline, and support long-term financial planning.
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">HTML</span>
+        <span class="project-tag">CSS</span>
+        <span class="project-tag">Java</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">02</div>
+      <div class="project-period">Web Application</div>
+      <div class="project-title">Quiz Web Application</div>
+      <div class="project-desc">
+        A dynamic quiz platform featuring real-time question rendering, timer-based quizzes, and instant score evaluation. Includes MySQL integration, input validation, result analytics, and a fully responsive UI across all devices.
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">HTML</span>
+        <span class="project-tag">CSS</span>
+        <span class="project-tag">Java</span>
+        <span class="project-tag">MySQL</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="achievements">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Achievements</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="achievements-list">
+
+    <div class="achievement reveal">
+      <div class="achievement-icon">&#128202;</div>
+      <div class="achievement-text">
+        <div class="achievement-title">Microsoft Introduction to Excel</div>
+        <div class="achievement-desc">Completed foundational data analysis coursework covering spreadsheet management and data visualization techniques.</div>
+      </div>
+      <div class="achievement-badge">Microsoft</div>
+    </div>
+
+    <div class="achievement reveal">
+      <div class="achievement-icon">&#9729;</div>
+      <div class="achievement-text">
+        <div class="achievement-title">Oracle Cloud Infrastructure 2025 AI Foundation Associate</div>
+        <div class="achievement-desc">Gained fundamentals of cloud computing and AI services on Oracle Cloud Infrastructure.</div>
+      </div>
+      <div class="achievement-badge">Oracle</div>
+    </div>
+
+    <div class="achievement reveal">
+      <div class="achievement-icon">&#128640;</div>
+      <div class="achievement-text">
+        <div class="achievement-title">GOG Full Stack Developer Bootcamp</div>
+        <div class="achievement-desc">Completed an intensive hands-on full stack training program covering both frontend and backend technologies.</div>
+      </div>
+      <div class="achievement-badge">Certified</div>
+    </div>
+
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="education-timeline">
+
+    <div class="edu-item reveal">
+      <div class="edu-period">2023 - 2027</div>
+      <div class="edu-degree">B.Tech in Information Technology</div>
+      <div class="edu-school">Panimalar Engineering College, India</div>
+      <span class="edu-score">CGPA: 7.98</span>
+    </div>
+
+    <div class="edu-item reveal">
+      <div class="edu-period">2009 - 2023</div>
+      <div class="edu-degree">State Board - HSC</div>
+      <div class="edu-school">Sri Lakshmi Vidyalaya Matric Hr Sec School, India</div>
+      <span class="edu-score">Percentage: 80.67%</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="contact-section" id="contact">
+  <h2>Let's <span>Connect</span></h2>
+  <p>Looking for internship opportunities and collaborative projects.<br>Feel free to reach out!</p>
+  <a href="mailto:sibiwilson2006@gmail.com" class="btn btn-primary">Send a Message</a>
+  <div class="contact-info">
+    <div class="contact-item">
+      <span>&#128231;</span>
+      <span>sibiwilson2006@gmail.com</span>
+    </div>
+    <div class="contact-item">
+      <span>&#128222;</span>
+      <span>+91 7418825519</span>
+    </div>
+    <div class="contact-item">
+      <span>&#128279;</span>
+      <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>2025 Sibi Wilson - Crafted with intention</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
